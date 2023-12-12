@@ -4,7 +4,9 @@ Simple wrapper for smplayer that adds clickable subtitle functionality for onlin
 
 ## Showcase
 
-TBD
+![2023-12-12_13-07](https://github.com/kpliuta/smplayer-online-word-searching/assets/9212935/8e07b440-2d49-453b-a133-0e54d201c791)
+
+![2023-12-12_13-12](https://github.com/kpliuta/smplayer-online-word-searching/assets/9212935/7a5f9111-43aa-45e9-992b-5cfa90852359)
 
 ## Supported platforms
 
