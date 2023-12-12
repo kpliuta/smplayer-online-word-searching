@@ -128,10 +128,10 @@ def execute_command(command):
 
 
 def open_web_page(query):
-    subprocess = QtCore.QProcess()
-    subprocess.setProgram(BROWSER_BIN)
-    subprocess.setArguments([DICT_URL.format(query=query)])
-    subprocess.startDetached()
+    process = QtCore.QProcess()
+    process.setProgram(BROWSER_BIN)
+    process.setArguments([DICT_URL.format(query=query)])
+    process.startDetached()
 
 
 def main():
