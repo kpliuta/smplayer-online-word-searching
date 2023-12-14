@@ -5,7 +5,7 @@ import logging
 import sys
 import time
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 BROWSER_BIN = 'google-chrome-stable'
 DICT_URL = 'https://context.reverso.net/translation/spanish-english/{query}'
@@ -27,7 +27,7 @@ class MainWidget(QtWidgets.QWidget):
         self.subtitles_text_edit.text_selected_signal.connect(open_web_page)
         self.layout().addWidget(self.subtitles_text_edit)
 
-        self.subtitle_reader = SubtitlesReader(self.smplayer_process.pid())
+        self.subtitle_reader = SubtitlesReader(self.smplayer_process.processId())
         self.subtitle_reader.subtitles_changed_signal.connect(self.subtitles_text_edit.setText)
         self.subtitle_reader.start()
 
@@ -54,10 +54,10 @@ class SmplayerProcess(QtCore.QProcess):
             if ext_window_id:
                 return ext_window_id
             time.sleep(0.2)
-        raise Exception(f'Cannot find external window id by {self.pid()} smplayer pid')
+        raise Exception(f'Cannot find external window id by {self.processId()} smplayer pid')
 
     def execute_xdotool(self):
-        return execute_command(f'xdotool search --pid {self.pid()} --onlyvisible')
+        return execute_command(f'xdotool search --pid {self.processId()} --onlyvisible')
 
 
 class SubtitlesTextEdit(QtWidgets.QTextEdit):
@@ -94,7 +94,7 @@ class SubtitlesReader(QtCore.QTimer):
     def read_subtitles(self):
         if self.init_ipc_server():
             output = execute_command(
-                f'echo \'{{"""command""": ["""get_property""", """sub-text"""] }}\' | socat - {self.ipc_server}')
+                f'echo \'{{"command": ["get_property", "sub-text"] }}\' | socat - {self.ipc_server}')
             if output:
                 data = json.loads(output).get("data", None)
                 if data and self.last_read_subtitles != data:
@@ -109,8 +109,7 @@ class SubtitlesReader(QtCore.QTimer):
         """
         if self.ipc_server:
             return True
-        output = execute_command(
-            f'pstree -a -T {self.smplayer_pid} | grep -oP \'input-ipc-server=\\K\\S+\'')
+        output = execute_command(f'pstree -a -T {self.smplayer_pid} | grep -oP \'input-ipc-server=\\K\\S+\'')
         if output:
             self.ipc_server = output
             return True
@@ -120,7 +119,9 @@ class SubtitlesReader(QtCore.QTimer):
 
 def execute_command(command):
     process = QtCore.QProcess()
-    process.start(f'sh -c "{command}"')
+    process.setProgram('sh')
+    process.setArguments(['-c', command])
+    process.start()
     process.waitForFinished()
     output = str(process.readAllStandardOutput(), 'utf-8').strip()
     logging.debug(f'{process.program()} {process.arguments()}: {output}')
@@ -140,7 +141,7 @@ def main():
     app = QtWidgets.QApplication()
     main_widget = MainWidget()
     main_widget.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':
