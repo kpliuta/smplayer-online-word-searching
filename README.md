@@ -8,8 +8,8 @@ This application embeds an SMPlayer instance into a custom Qt window. Below the 
 
 ## Showcase
 
-![2023-12-12_13-07](https://github.com/kpliuta/smplayer-online-word-searching/assets/9212935/8e07b440-2d49-453b-a133-0e54d201c791)
-![2023-12-12_13-12](https://github.com/kpliuta/smplayer-online-word-searching/assets/9212935/7a5f9111-43aa-45e9-992b-5cfa90852359)
+<img width="1920" height="1050" alt="289844264-8e07b440-2d49-453b-a133-0e54d201c791" src="https://github.com/user-attachments/assets/018059a6-f447-41f1-8b0c-0b863062fbb5" />
+<img width="1920" height="1049" alt="289844294-7a5f9111-43aa-45e9-992b-5cfa90852359" src="https://github.com/user-attachments/assets/c5997268-985e-41f5-8a16-a05a38612024" />
 
 ## Requirements
 
